@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart'; //英単語生成のパッケージを追加
 
 void main() => runApp(MyApp()); //関数実行をワンライナーで書けるシンタックスシュガー
 
@@ -6,6 +7,7 @@ class MyApp extends StatelessWidget { //StatelessWidgetを継承
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) { //build でウィジェットのUIを作成
+    final wordPair = WordPair.random(); //ランダムな英単語を生成
     return MaterialApp( // MaterialDesignを使用(Flutterでは豊富なマテリアルデザインのウィジェットが提供されている)
       title: 'Welcome to Flutter',
       home: Scaffold(
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget { //StatelessWidgetを継承
           title: Text('Welcome to Flutter'),
         ),
         body: Center(
-          child: Text('Welcome to Flutter'), //「Center」で中央配置にし「Text」で文字列を配置
+          child: Text(wordPair.asPascalCase), //パスカルケースで表示
         ),
       ),
     );
