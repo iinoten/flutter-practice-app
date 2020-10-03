@@ -8,16 +8,9 @@ class MyApp extends StatelessWidget { //StatelessWidgetを継承
   @override
   Widget build(BuildContext context) { //build でウィジェットのUIを作成
     final wordPair = WordPair.random(); //ランダムな英単語を生成
-    return MaterialApp( // MaterialDesignを使用(Flutterでは豊富なマテリアルデザインのウィジェットが提供されている)
-      title: 'Welcome to Flutter',
-      home: Scaffold(
-        appBar: AppBar( // アプリケーションバーを表現
-          title: Text('Welcome to Flutter'),
-        ),
-        body: Center(
-          child: RandomWords(), //RandomWordsクラスを表示
-        ),
-      ),
+    return MaterialApp(
+      title: 'Startup Name Generator',
+      home: RandomWords(),
     );
   }
 }
@@ -109,9 +102,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class RandomWordsState extends State<RandomWords> { //RandomWordsStateクラスを追加
   @override
+  final _suggestions = <WordPair>[]; // _ から始まる変数はDartではPrivateを指す
+  final _biggerFont = const TextStyle(fontSize: 18.0);
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random();
-    return Text(wordPair.asPascalCase);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Startup Name Generator'),
+      ),
+      body: _buildSuggestions(),
+    );
+  }
+
+  Widget _buildRow(WordPair pair) {
+    return ListTile(
+      title: Text(
+        pair.asPascalCase,
+        style: _biggerFont,
+      ),
+    );
+  }
+
+  Widget _buildSuggestions() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemBuilder: (context, i) {
+        if (i.isOdd) return Divider();
+        final index = i ~/ 2;
+        if (index >= _suggestions.length) {
+          _suggestions.addAll(generateWordPairs().take(10));
+        }
+        return _buildRow(_suggestions[index]);
+      },
+    );
   }
 }
 
