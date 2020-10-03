@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget { //StatelessWidgetを継承
           title: Text('Welcome to Flutter'),
         ),
         body: Center(
-          child: Text(wordPair.asPascalCase), //パスカルケースで表示
+          child: RandomWords(), //RandomWordsクラスを表示
         ),
       ),
     );
@@ -105,4 +105,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class RandomWordsState extends State<RandomWords> { //RandomWordsStateクラスを追加
+  @override
+  Widget build(BuildContext context) {
+    final wordPair = WordPair.random();
+    return Text(wordPair.asPascalCase);
+  }
+}
+
+class RandomWords extends StatefulWidget { //StatefulWidgetを継承(状態を持つウィジェット)
+  @override
+  RandomWordsState createState() => new RandomWordsState();
 }
